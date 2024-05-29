@@ -1,3 +1,7 @@
+cuda
+cudnn-10.1-linux-x64-v8.0.2.39.tgz
+huggingface
+
 .DS_Store
 __pycache__
 *.pyc

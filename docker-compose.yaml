@@ -7,11 +7,25 @@ services:
     environment:
       - is_half=False
       - is_share=False
+      - LC_ALL=zh_CN.UTF-8
+      - LANG=zh_CN.UTF-8
+      - LANGUAGE=zh_CN.UTF-8
+      # - LD_LIBRARY_PATH=/usr/local/cuda/lib64
     volumes:
+      - ./cuda:/usr/local/cuda
+      - ./huggingface:/root/.cache/huggingface
       - ./output:/workspace/output
       - ./logs:/workspace/logs
       - ./SoVITS_weights:/workspace/SoVITS_weights
+      - ./GPT_weights:/workspace/GPT_weights
       - ./reference:/workspace/reference
+      - ./GPT_SoVITS/configs:/workspace/GPT_SoVITS/configs
+      - ./GPT_SoVITS/feature_extractor:/workspace/GPT_SoVITS/feature_extractor
+      - ./GPT_SoVITS/AR/models:/workspace/GPT_SoVITS/AR/models
+      - ./GPT_SoVITS/text:/workspace/GPT_SoVITS/text
+      - ./GPT_SoVITS/TTS_infer_pack:/workspace/GPT_SoVITS/TTS_infer_pack
+      - ./GPT_SoVITS/inference_webui_tts.py:/workspace/GPT_SoVITS/inference_webui.py
+      - ./tools/uvr5/webui.py:/workspace/tools/uvr5/webui.py
     working_dir: /workspace
     ports:
       - "9880:9880"
@@ -25,7 +39,8 @@ services:
         reservations:
           devices:
           - driver: nvidia
-            count: "all"
+            device_ids: ['3']
+            #count: "all"
             capabilities: [gpu]
     stdin_open: true
     tty: true
